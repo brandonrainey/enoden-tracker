@@ -21,9 +21,26 @@ export interface ActiveTrain {
 /**
  * Enoden's service day rolls over ~3am, not midnight: a 1am timestamp belongs to
  * the *previous* service day's timetable, so it's represented as >1440.
+ *
+ * The timetable's times are JST wall-clock minutes, so `date` must be converted to
+ * JST explicitly here — `date.getHours()` etc. would use the process's local
+ * timezone, which on Vercel is UTC, not JST (this was a real bug: it silently
+ * produced a value 9 hours off from every real train's schedule window).
  */
 export function getServiceMinutesNow(date: Date): number {
-  let minutes = date.getHours() * 60 + date.getMinutes() + date.getSeconds() / 60;
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Tokyo',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).formatToParts(date);
+  const lookup = Object.fromEntries(parts.map((p) => [p.type, p.value]));
+  const hour = Number(lookup.hour === '24' ? '0' : lookup.hour);
+  const minute = Number(lookup.minute);
+  const second = Number(lookup.second);
+
+  let minutes = hour * 60 + minute + second / 60;
   if (minutes < 180) minutes += 1440;
   return minutes;
 }

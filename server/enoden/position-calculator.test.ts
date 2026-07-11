@@ -6,14 +6,17 @@ import { SAMPLE_SCHEDULE_SCRIPT } from './__fixtures__/sample-schedule.js';
 const schedule = parseLooOolSchedule(SAMPLE_SCHEDULE_SCRIPT);
 
 describe('getServiceMinutesNow', () => {
-  it('rolls over times before 3am into the previous service day (adds 1440)', () => {
-    const oneThirtyAm = new Date(2026, 6, 6, 1, 30, 0);
-    expect(getServiceMinutesNow(oneThirtyAm)).toBeCloseTo(1440 + 90, 5);
+  it('rolls over times before 3am JST into the previous service day (adds 1440)', () => {
+    // 2026-07-06 01:30:00 JST == 2026-07-05 16:30:00 UTC. Constructed via Date.UTC
+    // so the test is unambiguous regardless of the runner's local timezone.
+    const oneThirtyAmJst = new Date(Date.UTC(2026, 6, 5, 16, 30, 0));
+    expect(getServiceMinutesNow(oneThirtyAmJst)).toBeCloseTo(1440 + 90, 5);
   });
 
-  it('does not roll over times at/after 3am', () => {
-    const fourAm = new Date(2026, 6, 6, 4, 0, 0);
-    expect(getServiceMinutesNow(fourAm)).toBeCloseTo(240, 5);
+  it('does not roll over times at/after 3am JST', () => {
+    // 2026-07-06 04:00:00 JST == 2026-07-05 19:00:00 UTC.
+    const fourAmJst = new Date(Date.UTC(2026, 6, 5, 19, 0, 0));
+    expect(getServiceMinutesNow(fourAmJst)).toBeCloseTo(240, 5);
   });
 });
 
