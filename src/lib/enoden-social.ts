@@ -17,10 +17,9 @@ export async function fetchEnodenSchedule(): Promise<
   }
 }
 
-// Derived from loo-ool.com's own rendering code (both its timetable-list function
-// and its live-position function route direction===1 rows to the "下り" column/
-// container and direction===2 rows to "上り") — reasonably confident, but not
-// spot-checked against the live site's physical Fujisawa/Kamakura orientation.
+// Confirmed against live production data: direction===1 trips consistently run
+// Fujisawa→Kamakura (下り) and direction===2 trips consistently run Kamakura→
+// Fujisawa (上り), matching what loo-ool.com's own rendering code implied.
 const DIRECTION_LABELS: Record<1 | 2, string> = {
   1: '下り',
   2: '上り',
