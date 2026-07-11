@@ -3,7 +3,7 @@
 // schedule data. Deliberately skips the site's own "+18" pixel-offset constant (that's
 // specific to its canvas rendering, not meaningful for a text summary).
 
-import type { ParsedSchedule } from './safe-array-parser';
+import type { ParsedSchedule } from './safe-array-parser.js';
 
 export interface ActiveTrain {
   /** loo-ool trip identifier with its leading "$" stripped, e.g. "200". Not yet

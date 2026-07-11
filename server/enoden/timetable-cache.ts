@@ -1,5 +1,5 @@
-import { fetchAndParseSchedule } from './fetch-schedule';
-import type { ParsedSchedule } from './safe-array-parser';
+import { fetchAndParseSchedule } from './fetch-schedule.js';
+import type { ParsedSchedule } from './safe-array-parser.js';
 
 interface CacheEntry {
   serviceDate: string;

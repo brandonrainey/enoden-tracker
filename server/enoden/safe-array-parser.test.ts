@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ParseError, parseLooOolSchedule } from './safe-array-parser';
-import { MALICIOUS_SCHEDULE_SCRIPTS, SAMPLE_SCHEDULE_SCRIPT } from './__fixtures__/sample-schedule';
+import { ParseError, parseLooOolSchedule } from './safe-array-parser.js';
+import { MALICIOUS_SCHEDULE_SCRIPTS, SAMPLE_SCHEDULE_SCRIPT } from './__fixtures__/sample-schedule.js';
 
 describe('parseLooOolSchedule', () => {
   it('parses the real fixture into typed TLD/STP/STN/DTX arrays', () => {

@@ -1,5 +1,5 @@
-import { discoverScheduleUrl, BROWSER_HEADERS } from './schedule-discovery';
-import { parseLooOolSchedule, type ParsedSchedule } from './safe-array-parser';
+import { discoverScheduleUrl, BROWSER_HEADERS } from './schedule-discovery.js';
+import { parseLooOolSchedule, type ParsedSchedule } from './safe-array-parser.js';
 
 export async function fetchAndParseSchedule(): Promise<ParsedSchedule> {
   const scheduleUrl = await discoverScheduleUrl();

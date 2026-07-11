@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getSchedule, getServiceDateKey } from '../server/enoden/timetable-cache';
-import { getServiceMinutesNow, computeActiveTrains } from '../server/enoden/position-calculator';
+import { getSchedule, getServiceDateKey } from '../server/enoden/timetable-cache.js';
+import { getServiceMinutesNow, computeActiveTrains } from '../server/enoden/position-calculator.js';
 
 export default async function handler(_req: VercelRequest, res: VercelResponse): Promise<void> {
   try {

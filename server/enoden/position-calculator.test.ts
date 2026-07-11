@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { computeActiveTrains, getServiceMinutesNow } from './position-calculator';
-import { parseLooOolSchedule } from './safe-array-parser';
-import { SAMPLE_SCHEDULE_SCRIPT } from './__fixtures__/sample-schedule';
+import { computeActiveTrains, getServiceMinutesNow } from './position-calculator.js';
+import { parseLooOolSchedule } from './safe-array-parser.js';
+import { SAMPLE_SCHEDULE_SCRIPT } from './__fixtures__/sample-schedule.js';
 
 const schedule = parseLooOolSchedule(SAMPLE_SCHEDULE_SCRIPT);
 
