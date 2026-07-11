@@ -1,8 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getSchedule, getServiceDateKey } from '../server/enoden/timetable-cache.js';
 import { getServiceMinutesNow, computeActiveTrains } from '../server/enoden/position-calculator.js';
+import { discoverScheduleUrl } from '../server/enoden/schedule-discovery.js';
 
-export default async function handler(_req: VercelRequest, res: VercelResponse): Promise<void> {
+export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   try {
     const schedule = await getSchedule();
     const now = new Date();
@@ -17,6 +18,23 @@ export default async function handler(_req: VercelRequest, res: VercelResponse):
       fraction: train.fraction,
       isFinalLeg: train.isFinalLeg,
     }));
+
+    // TEMPORARY: remove once the empty-trains investigation is resolved.
+    if (req.query.debug === '1') {
+      const scheduleUrl = await discoverScheduleUrl();
+      res.status(200).json({
+        nowMinutes,
+        scheduleUrl,
+        tldRowCount: schedule.TLD.length,
+        sampleRows: schedule.TLD.slice(0, 5).map((row) => ({
+          start: row[0],
+          end: row[1],
+          tripId: row[3],
+        })),
+        trains,
+      });
+      return;
+    }
 
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=15');
     res.status(200).json({
